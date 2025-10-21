@@ -36,15 +36,14 @@ const LoginPage: React.FC = () => {
       toast.success('Login successful!');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error || 'Login failed');
+      toast.error(error || 'Login failed front');
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
-      // In a real app, you would integrate with Google OAuth
-      // For now, we'll simulate it
-      toast.info('Google OAuth integration coming soon!');
+      const apiBase = (globalThis as any)?.process?.env?.REACT_APP_API_URL || 'http://localhost:3000';
+      window.location.href = `${apiBase}/auth/google`;
     } catch (error: any) {
       toast.error('Google login failed');
     }

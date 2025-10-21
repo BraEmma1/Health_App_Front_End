@@ -7,6 +7,7 @@ import { useAuth } from './hooks/useAuth';
 // Layout Components
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import TestApiConnection from './TestApiConnection';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -54,6 +55,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-background">
         <Navbar />
+        <TestApiConnection />
         <main className="flex-1">
           <Routes>
             {/* Public Routes */}
