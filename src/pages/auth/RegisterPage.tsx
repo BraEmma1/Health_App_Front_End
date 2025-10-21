@@ -50,8 +50,10 @@ const RegisterPage: React.FC = () => {
 
    const handleGoogleLogin = async () => {
      try {
-       const apiBase = (globalThis as any)?.process?.env?.REACT_APP_API_URL || 'http://localhost:3000';
-       window.location.href = `${apiBase}/auth/google`;
+      // Use Vite env var (VITE_API_URL) or fallback to current origin.
+      const apiBase = (import.meta as any).env?.VITE_API_URL || window.location.origin;
+      const base = String(apiBase).replace(/\/+$/, '');
+      window.location.href = `${base}/auth/google`;
      } catch (error: any) {
        toast.error('Google login failed');
      }
