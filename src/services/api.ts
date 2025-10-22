@@ -50,6 +50,7 @@ class ApiService {
 
   async register(userData: any): Promise<ApiResponse<{ user: any; token: string }>> {
     const response = await api.post('/auth/register', userData);
+    console.log(userData);
     return response.data;
   }
 

@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
       toast.success('Login successful!');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error || 'Login failed front');
+      toast.error(error || 'Login failed');
     }
   };
 

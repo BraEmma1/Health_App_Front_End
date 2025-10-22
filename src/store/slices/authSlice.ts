@@ -18,48 +18,54 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Async thunks
+// LOGIN
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+  async (
+    { email, password }: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await apiService.login(email, password);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      return response.data;
+      const data = await apiService.login(email, password);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   }
 );
 
+// REGISTER
 export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData: any, { rejectWithValue }) => {
     try {
-      const response = await apiService.register(userData);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      return response.data;
+      const data = await apiService.register(userData);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
     }
   }
 );
 
+// GOOGLE AUTH
 export const googleAuth = createAsyncThunk(
   'auth/google',
   async (googleToken: string, { rejectWithValue }) => {
     try {
-      const response = await apiService.googleAuth(googleToken);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      return response.data;
+      const data = await apiService.googleAuth(googleToken);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Google authentication failed');
     }
   }
 );
+
 
 export const getCurrentUser = createAsyncThunk(
   'auth/getCurrentUser',

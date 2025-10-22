@@ -7,12 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../store';
 import { registerUser, clearError } from '../../store/slices/authSlice';
 import { toast } from 'react-toastify';
-import { Eye, EyeOff, Mail, Lock, User, Heart } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, Heart } from 'lucide-react';
 
 const schema = yup.object({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
+  phone: yup
+    .string()
+    .trim()
+    .matches(/^\+?[0-9]{7,15}$/, 'Invalid phone number')
+    .notRequired(),
   password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: yup
     .string()
@@ -39,8 +44,8 @@ const RegisterPage: React.FC = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const { confirmPassword, ...registerData } = data;
-      await dispatch(registerUser(registerData)).unwrap();
+      // Send full data (including confirmPassword) to the backend
+      await dispatch(registerUser(data)).unwrap();
       toast.success('Registration successful!');
       navigate('/onboarding');
     } catch (error: any) {
@@ -149,6 +154,27 @@ const RegisterPage: React.FC = () => {
               </div>
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+              )}
+            </div>
+
+            {/* Phone Field */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Phone (optional)
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Phone className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  {...register('phone')}
+                  type="tel"
+                  className="input-field pl-10"
+                  placeholder="+1234567890"
+                />
+              </div>
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
               )}
             </div>
 
